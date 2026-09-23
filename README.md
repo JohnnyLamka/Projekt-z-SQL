@@ -56,6 +56,8 @@ FROM porovnani
 WHERE mzda_predchozi_rok IS NOT NULL
 ORDER BY odvetvi, rok;
 ```
+----------------------------------------------------------
+```sql
 WITH mzdy AS (
     SELECT DISTINCT
         rok,
