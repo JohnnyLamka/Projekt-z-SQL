@@ -83,7 +83,7 @@ SELECT
 FROM porovnani
 WHERE mzda_predchozi_rok IS NOT NULL
   AND prumerna_mzda < mzda_predchozi_rok;
-
+```
 Kontrolní dotaz ukázal celkem **25 případů meziročního poklesu průměrné mzdy** v jednotlivých odvětvích během sledovaného období.
   
 ### Odpověď
