@@ -114,9 +114,66 @@ ORDER BY m.rok, c.category_code;
 
 ## 3. Která kategorie potravin zdražuje nejpomaleji?
 
-*Bude doplněno.*
+Pro každou kategorii potravin byla nejprve vypočtena průměrná cena v jednotlivých letech. 
+Pomocí funkce LAG() byla následně získána cena stejné potraviny v předchozím roce 
+a vypočtena procentuální meziroční změna ceny. Nakonec byl pro každou kategorii 
+vypočten průměr těchto meziročních změn.
 
----
+Nejnižší průměrnou meziroční změnu ceny měl cukr krystalový, a to přibližně -1,92 %. 
+Jeho cena tedy v období 2006–2018 v průměru meziročně neklesala pouze tempem růstu,
+ale skutečně vykazovala mírný pokles. Druhou nejnižší hodnotu měla rajská jablka 
+červená kulatá s přibližně -0,74 %.
+
+### SQL dotaz
+
+```sql
+WITH rocni_ceny AS (
+    SELECT
+        EXTRACT(YEAR FROM cp.date_from)::int AS rok,
+        cp.category_code,
+        cpc.name AS potravina,
+        AVG(cp.value) AS prumerna_cena
+    FROM czechia_price cp
+    JOIN czechia_price_category cpc
+        ON cp.category_code = cpc.code
+    WHERE EXTRACT(YEAR FROM cp.date_from) BETWEEN 2006 AND 2018
+    GROUP BY
+        EXTRACT(YEAR FROM cp.date_from),
+        cp.category_code,
+        cpc.name
+),
+ceny_s_predchozim_rokem AS (
+    SELECT
+        rok,
+        category_code,
+        potravina,
+        prumerna_cena,
+        LAG(prumerna_cena) OVER (
+            PARTITION BY category_code
+            ORDER BY rok
+        ) AS cena_predchozi_rok
+    FROM rocni_ceny
+),
+mezirocni_zmeny AS (
+    SELECT
+        rok,
+        category_code,
+        potravina,
+        ((prumerna_cena / cena_predchozi_rok) - 1) * 100
+            AS mezirocni_zmena_pct
+    FROM ceny_s_predchozim_rokem
+    WHERE cena_predchozi_rok IS NOT NULL
+)
+SELECT
+    potravina,
+    ROUND(AVG(mezirocni_zmena_pct)::numeric, 2)
+        AS prumerny_mezirocni_rust_pct
+FROM mezirocni_zmeny
+GROUP BY
+    category_code,
+    potravina
+ORDER BY
+    prumerny_mezirocni_rust_pct ASC;
 
 ## 4. Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd?
 
