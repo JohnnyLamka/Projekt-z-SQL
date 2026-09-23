@@ -65,9 +65,54 @@ Mzdy tedy **nerostly každý rok ve všech odvětvích**. Přestože je v delš�
 
 ## 2. Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období?
 
-*Bude doplněno.*
+## 2. Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období?
 
----
+Pro porovnání jsem použil první a poslední společný rok dostupných dat, tedy roky 2006 a 2018.
+
+V roce 2006 byla průměrná mzda 21 083,73 Kč. Za tuto mzdu bylo možné koupit přibližně 1 307,63 kg chleba nebo 1 460,31 litrů mléka.
+
+V roce 2018 byla průměrná mzda 33 039,03 Kč. Za tuto mzdu bylo možné koupit přibližně 1 363,08 kg chleba nebo 1 667,16 litrů mléka.
+
+Z výsledků vyplývá, že kupní síla průměrné mzdy se u obou sledovaných potravin mezi lety 2006 a 2018 zvýšila.
+
+```sql
+WITH mzdy AS (
+    SELECT
+        payroll_year AS rok,
+        AVG(prumernyplat) AS prumerna_mzda
+    FROM t_jan_lamka_project_SQL_primary_final
+    WHERE prumernyplat IS NOT NULL
+    GROUP BY payroll_year
+),
+ceny AS (
+    SELECT
+        EXTRACT(YEAR FROM date_from)::int AS rok,
+        category_code,
+        AVG(value) AS prumerna_cena
+    FROM czechia_price
+    WHERE category_code IN (111301, 114201)
+    GROUP BY
+        EXTRACT(YEAR FROM date_from),
+        category_code
+)
+SELECT
+    m.rok,
+    ROUND(m.prumerna_mzda::numeric, 2) AS prumerna_mzda,
+    CASE
+        WHEN c.category_code = 111301 THEN 'Chléb'
+        WHEN c.category_code = 114201 THEN 'Mléko'
+    END AS potravina,
+    ROUND(c.prumerna_cena::numeric, 2) AS prumerna_cena,
+    ROUND(
+        (m.prumerna_mzda / c.prumerna_cena)::numeric,
+        2
+    ) AS koupitelne_mnozstvi
+FROM mzdy m
+JOIN ceny c
+    ON m.rok = c.rok
+WHERE m.rok IN (2006, 2018)
+ORDER BY m.rok, c.category_code;
+```
 
 ## 3. Která kategorie potravin zdražuje nejpomaleji?
 
