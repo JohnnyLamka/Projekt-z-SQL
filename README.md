@@ -17,50 +17,55 @@ Následující část projektu odpovídá na jednotlivé výzkumné otázky pomo
 
 ## 1. Rostou v průběhu let mzdy ve všech odvětvích, nebo v některých klesají?
 
-Pro porovnání vývoje mezd byla u každého odvětví vypočítána meziroční změna průměrné mzdy. Pomocí funkce `LAG()` byla hodnota mzdy v daném roce porovnána s předchozím rokem.
-
-### SQL dotaz
-
+Pro porovnání vývoje mezd v jednotlivých odvětvích jsem použil funkci `LAG()`, pomocí které jsem ke každému roku přiřadil průměrnou mzdu z předchozího roku ve stejném odvětví. Následně jsem vypočítal absolutní a procentuální meziroční změnu mzdy.
 
 ```sql
-WITH mezirocni_mzdy AS (
+WITH porovnani AS (
     SELECT
+        rok,
+        industry_branch_code,
         odvetvi,
-        payroll_year,
-        prumernyplat,
-        LAG(prumernyplat) OVER (
-            PARTITION BY odvetvi
-            ORDER BY payroll_year
-        ) AS plat_predchozi_rok
-    FROM t_jan_lamka_project_SQL_primary_final
-    WHERE prumernyplat IS NOT NULL
+        prumerna_mzda,
+        LAG(prumerna_mzda) OVER (
+            PARTITION BY industry_branch_code
+            ORDER BY rok
+        ) AS mzda_predchozi_rok
+    FROM (
+        SELECT DISTINCT
+            rok,
+            industry_branch_code,
+            odvetvi,
+            prumerna_mzda
+        FROM t_jan_lamka_project_SQL_primary_final
+    ) mzdy
 )
 SELECT
+    rok,
     odvetvi,
-    payroll_year,
-    plat_predchozi_rok,
-    prumernyplat,
+    prumerna_mzda,
+    mzda_predchozi_rok,
     ROUND(
-        ((prumernyplat / plat_predchozi_rok) - 1) * 100,
+        (prumerna_mzda - mzda_predchozi_rok)::numeric,
+        2
+    ) AS rozdil_mzdy,
+    ROUND(
+        ((prumerna_mzda / mzda_predchozi_rok) - 1) * 100,
         2
     ) AS mezirocni_zmena_pct
-FROM mezirocni_mzdy
-WHERE prumernyplat < plat_predchozi_rok
-ORDER BY payroll_year, odvetvi;
+FROM porovnani
+WHERE mzda_predchozi_rok IS NOT NULL
+ORDER BY odvetvi, rok;
 ```
 
-### Výsledek
+### Odpověď
 
-Mzdy ve sledovaném období nerostly ve všech odvětvích nepřetržitě. V některých odvětvích došlo v jednotlivých letech k meziročnímu poklesu.
+Mzdy v průběhu sledovaného období **nerostly ve všech odvětvích nepřetržitě**.
 
-SQL dotaz nalezl celkem **26 případů**, kdy byla průměrná mzda v daném odvětví nižší než v předchozím roce.
+Analýza meziročních změn ukázala, že se v datech nachází **25 případů meziročního poklesu průměrné mzdy** v konkrétním odvětví.
 
-Poklesy se objevovaly například v odvětvích těžby a dobývání, ubytování, stravování a pohostinství nebo administrativních a podpůrných činností. Více případů poklesu je patrných také v roce 2013.
+Poklesy se vyskytovaly v různých letech a odvětvích. Například v roce 2013 klesla průměrná mzda v odvětví **Peněžnictví a pojišťovnictví přibližně o 8,83 %**, v odvětví **Těžba a dobývání přibližně o 3,24 %** a v odvětví **Profesní, vědecké a technické činnosti přibližně o 3,02 %**.
 
-### Odpověď na výzkumnou otázku
-
-Mzdy tedy **nerostly každý rok ve všech odvětvích**. Přestože je v delším období patrný růst mezd, v jednotlivých letech a odvětvích docházelo také k meziročním poklesům.
-
+Z výsledků tedy vyplývá, že ačkoliv mzdy v dlouhodobém horizontu převážně rostou, **v některých odvětvích a letech docházelo také k meziročnímu poklesu mezd**.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## 2. Kolik je možné si koupit litrů mléka a kilogramů chleba za první a poslední srovnatelné období?
