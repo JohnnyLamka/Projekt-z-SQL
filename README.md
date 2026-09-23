@@ -110,42 +110,29 @@ V roce **2018** byla průměrná mzda **33 091,45 Kč**. Průměrná cena chleba
 Z výsledků vyplývá, že se kupní síla průměrné mzdy mezi lety 2006 a 2018 u obou sledovaných potravin zvýšila. Nárůst byl výraznější u mléka než u chleba.
 
 ```sql
-WITH mzdy AS (
-    SELECT
-        payroll_year AS rok,
-        AVG(prumernyplat) AS prumerna_mzda
-    FROM t_jan_lamka_project_SQL_primary_final
-    WHERE prumernyplat IS NOT NULL
-    GROUP BY payroll_year
-),
-ceny AS (
-    SELECT
-        EXTRACT(YEAR FROM date_from)::int AS rok,
-        category_code,
-        AVG(value) AS prumerna_cena
-    FROM czechia_price
-    WHERE category_code IN (111301, 114201)
-    GROUP BY
-        EXTRACT(YEAR FROM date_from),
-        category_code
-)
 SELECT
-    m.rok,
-    ROUND(m.prumerna_mzda::numeric, 2) AS prumerna_mzda,
-    CASE
-        WHEN c.category_code = 111301 THEN 'Chléb'
-        WHEN c.category_code = 114201 THEN 'Mléko'
-    END AS potravina,
-    ROUND(c.prumerna_cena::numeric, 2) AS prumerna_cena,
+    rok,
+    potravina,
+    price_unit,
+    ROUND(AVG(prumerna_mzda)::numeric, 2) AS prumerna_mzda,
+    ROUND(AVG(prumerna_cena)::numeric, 2) AS prumerna_cena,
     ROUND(
-        (m.prumerna_mzda / c.prumerna_cena)::numeric,
+        (AVG(prumerna_mzda) / AVG(prumerna_cena))::numeric,
         2
-    ) AS koupitelne_mnozstvi
-FROM mzdy m
-JOIN ceny c
-    ON m.rok = c.rok
-WHERE m.rok IN (2006, 2018)
-ORDER BY m.rok, c.category_code;
+    ) AS mnozstvi_za_mzdu
+FROM t_jan_lamka_project_SQL_primary_final
+WHERE rok IN (2006, 2018)
+  AND (
+        LOWER(potravina) LIKE '%mléko%'
+        OR LOWER(potravina) LIKE '%chléb%'
+      )
+GROUP BY
+    rok,
+    potravina,
+    price_unit
+ORDER BY
+    potravina,
+    rok;
 ```
 
 ## 3. Která kategorie potravin zdražuje nejpomaleji?
