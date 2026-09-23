@@ -22,6 +22,7 @@ Pro porovnání vývoje mezd byla u každého odvětví vypočítána meziročn�
 ### SQL dotaz
 
 
+```sql
 WITH mezirocni_mzdy AS (
     SELECT
         odvetvi,
