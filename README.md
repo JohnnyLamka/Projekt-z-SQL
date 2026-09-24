@@ -53,10 +53,8 @@ a vypočtena procentuální meziroční změna ceny. Nakonec byl pro každou kat
 vypočten průměr těchto meziročních změn.
 
 Nejnižší průměrnou meziroční změnu ceny měl cukr krystalový, a to přibližně -1,92 %. 
-Jeho cena tedy v období 2006–2018 v průměru meziročně neklesala pouze tempem růstu, ale skutečně vykazovala mírný pokles. Druhou nejnižší hodnotu měla rajská jablka 
-červená kulatá s přibližně -0,74 %.
+Záporná hodnota znamená, že cena cukru krystalového v období 2006–2018 v průměru meziročně mírně klesala. Druhou nejnižší hodnotu měla rajská jablka červená kulatá s přibližně −0,74 %.
 
-### SQL dotaz
 
 
 
