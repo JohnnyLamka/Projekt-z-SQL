@@ -192,6 +192,7 @@ GROUP BY
     potravina
 ORDER BY
     prumerny_mezirocni_rust_pct ASC;
+```
 
 ## 4. Existuje rok, ve kterém byl meziroční nárůst cen potravin výrazně vyšší než růst mezd (větší než 10 %)?
 
