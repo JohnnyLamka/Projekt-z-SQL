@@ -95,7 +95,7 @@ Analýza meziročních změn ukázala, že se v datech nachází **25 případů
 Poklesy se vyskytovaly v různých letech a odvětvích. Například v roce 2013 klesla průměrná mzda v odvětví **Peněžnictví a pojišťovnictví přibližně o 8,83 %**, v odvětví **Těžba a dobývání přibližně o 3,24 %** a v odvětví **Profesní, vědecké a technické činnosti přibližně o 3,02 %**.
 
 **Z výsledků tedy vyplývá, že ačkoli mzdy v dlouhodobém horizontu převážně rostou, v některých odvětvích a letech docházelo také k meziročnímu poklesu mezd.**
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
