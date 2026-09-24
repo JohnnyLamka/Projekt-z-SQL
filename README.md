@@ -404,4 +404,4 @@ Při porovnání růstu cen potravin a mezd nebyl nalezen rok, ve kterém by mez
 
 Porovnání vývoje HDP, mezd a cen potravin neprokázalo jednoznačný pravidelný vztah, podle kterého by výraznější růst HDP automaticky vedl k výraznějšímu růstu mezd nebo cen potravin ve stejném či následujícím roce. Výsledky ukazují, že se jejich vývoj v některých letech může pohybovat podobným směrem, v jiných letech se však výrazně liší.
 
-Celkově tedy data ukazují dlouhodobý růst mezd a kupní síly u sledovaných základních potravin, zároveň však potvrzují, že vývoj mezd, cen potravin a HDP není v jednotlivých letech rovnoměrný a jejich vzájemný vztah nelze na základě této analýzy považovat za jednoznačně příčinný.
+Celkově tedy data ukazují dlouhodobý růst mezd a kupní síly u sledovaných základních potravin, zároveň však potvrzují, že vývoj mezd, cen potravin a HDP není v jednotlivých letech rovnoměrný.
