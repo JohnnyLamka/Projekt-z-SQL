@@ -394,4 +394,14 @@ ORDER BY rok;
 
 ## Závěr
 
-*Bude doplněno po vyhodnocení všech výzkumných otázek.*
+Analýza dat o mzdách, cenách potravin a HDP České republiky ukázala, že ve sledovaném období 2006–2018 docházelo k dlouhodobému růstu mezd, tento růst však nebyl ve všech odvětvích a letech nepřetržitý. V některých případech došlo také k meziročnímu poklesu průměrné mzdy.
+
+Porovnání kupní síly ukázalo, že za průměrnou mzdu bylo v roce 2018 možné koupit větší množství chleba i mléka než v roce 2006.
+
+Z analyzovaných kategorií potravin měl nejnižší průměrný meziroční růst ceny **cukr krystalový**, jehož průměrná meziroční změna činila **−1,92 %**.
+
+Při porovnání růstu cen potravin a mezd nebyl nalezen rok, ve kterém by meziroční růst cen potravin převýšil růst mezd o více než 10 procentních bodů. Největší rozdíl nastal v roce **2013** a činil **7,57 procentního bodu**.
+
+Porovnání vývoje HDP, mezd a cen potravin neprokázalo jednoznačný pravidelný vztah, podle kterého by výraznější růst HDP automaticky vedl k výraznějšímu růstu mezd nebo cen potravin ve stejném či následujícím roce. Výsledky ukazují, že se jejich vývoj v některých letech může pohybovat podobným směrem, v jiných letech se však výrazně liší.
+
+Celkově tedy data ukazují dlouhodobý růst mezd a kupní síly u sledovaných základních potravin, zároveň však potvrzují, že vývoj mezd, cen potravin a HDP není v jednotlivých letech rovnoměrný a jejich vzájemný vztah nelze na základě této analýzy považovat za jednoznačně příčinný.
