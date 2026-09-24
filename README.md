@@ -275,6 +275,7 @@ JOIN rust_cen c
 WHERE m.mzda_predchozi_rok IS NOT NULL
 ORDER BY rozdil_procentnich_bodu DESC;
 ```
+**
 ---
 
 ## 5. Má výška HDP vliv na změny ve mzdách a cenách potravin?
