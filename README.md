@@ -238,44 +238,51 @@ ceny_kategorie AS (
             prumerna_cena
         FROM t_jan_lamka_project_SQL_primary_final
     ) c
-    GROUP BY rok, category_code
+    GROUP BY
+        rok,
+        category_code
 ),
 rust_cen_kategorie AS (
     SELECT
         rok,
         category_code,
-        (prumerna_cena /
-         LAG(prumerna_cena) OVER (
-             PARTITION BY category_code
-             ORDER BY rok
-         ) - 1) * 100 AS rust_ceny_pct
+        prumerna_cena,
+        LAG(prumerna_cena) OVER (
+            PARTITION BY category_code
+            ORDER BY rok
+        ) AS cena_predchozi_rok
     FROM ceny_kategorie
 ),
 rust_cen AS (
     SELECT
         rok,
-        AVG(rust_ceny_pct) AS rust_cen_pct
+        AVG(
+            (prumerna_cena / cena_predchozi_rok - 1) * 100
+        ) AS rust_cen_pct
     FROM rust_cen_kategorie
-    WHERE rust_ceny_pct IS NOT NULL
+    WHERE cena_predchozi_rok IS NOT NULL
     GROUP BY rok
 )
 SELECT
     m.rok,
-    ROUND(((m.prumerna_mzda / m.mzda_predchozi_rok - 1) * 100)::numeric, 2)
-        AS rust_mezd_pct,
-    ROUND(c.rust_cen_pct::numeric, 2)
-        AS rust_cen_pct,
-    ROUND((
-        c.rust_cen_pct -
-        ((m.prumerna_mzda / m.mzda_predchozi_rok - 1) * 100)
-    )::numeric, 2) AS rozdil_procentnich_bodu
+    ROUND(
+        ((m.prumerna_mzda / m.mzda_predchozi_rok - 1) * 100)::numeric,
+        2
+    ) AS rust_mezd_pct,
+    ROUND(c.rust_cen_pct::numeric, 2) AS rust_cen_pct,
+    ROUND(
+        (
+            c.rust_cen_pct -
+            ((m.prumerna_mzda / m.mzda_predchozi_rok - 1) * 100)
+        )::numeric,
+        2
+    ) AS rozdil_procentnich_bodu
 FROM rust_mezd m
 JOIN rust_cen c
     ON m.rok = c.rok
 WHERE m.mzda_predchozi_rok IS NOT NULL
 ORDER BY rozdil_procentnich_bodu DESC;
 ```
-**
 ---
 
 ## 5. Má výška HDP vliv na změny ve mzdách a cenách potravin?
