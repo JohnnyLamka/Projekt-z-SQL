@@ -288,7 +288,17 @@ ORDER BY rozdil_procentnich_bodu DESC;
 
 ## 5. Má výška HDP vliv na změny ve mzdách a cenách potravin?
 
-*Bude doplněno.*
+Pro posouzení vztahu mezi HDP, mzdami a cenami potravin jsem porovnal meziroční procentuální změny HDP České republiky s meziročními změnami průměrných mezd a cen potravin. Zároveň jsem sledoval změny mezd a cen potravin v následujícím roce.
+
+### Odpověď
+
+Z dostupných dat **není patrný jednoznačný pravidelný vztah**, podle kterého by výraznější růst HDP automaticky vedl k výraznějšímu růstu mezd nebo cen potravin ve stejném či následujícím roce.
+
+Například v roce **2015** vzrostlo HDP o **5,39 %**, zatímco mzdy vzrostly pouze o **2,60 %** a ceny potravin klesly o **0,69 %**. Ani v následujícím roce nedošlo k výraznému růstu cen potravin – mzdy vzrostly o **3,64 %** a ceny potravin klesly o **1,40 %**.
+
+Naopak v roce **2017** vzrostlo HDP o **5,17 %**, mzdy o **6,17 %** a ceny potravin o **7,06 %**. V tomto roce tedy vyšší růst HDP doprovázel také výraznější růst mezd a cen.
+
+Výsledky proto naznačují, že mezi vývojem HDP, mezd a cen potravin může v některých letech existovat souvislost, ale **v analyzovaném období se neprojevuje pravidelně ani jednoznačně**. Samotné porovnání meziročních změn zároveň neprokazuje příčinný vztah.
 
 ---
 
