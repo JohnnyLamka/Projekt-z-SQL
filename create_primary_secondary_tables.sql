@@ -60,6 +60,7 @@ ORDER BY
     m.rok,
     m.industry_branch_code,
     c.category_code;
+
 -- Vytvoření sekundární finální tabulky
 -- Obsahuje údaje o HDP, populaci a GINI koeficientu
 -- evropských států za období 2006–2018.
