@@ -60,3 +60,23 @@ ORDER BY
     m.rok,
     m.industry_branch_code,
     c.category_code;
+-- Vytvoření sekundární finální tabulky
+-- Obsahuje údaje o HDP, populaci a GINI koeficientu
+-- evropských států za období 2006–2018.
+
+CREATE TABLE t_jan_lamka_project_SQL_secondary_final AS
+
+SELECT
+    e.country,
+    e.year,
+    e.gdp,
+    e.population,
+    e.gini
+FROM economies e
+JOIN countries c
+    ON e.country = c.country
+WHERE c.continent = 'Europe'
+    AND e.year BETWEEN 2006 AND 2018
+ORDER BY
+    e.country,
+    e.year;
