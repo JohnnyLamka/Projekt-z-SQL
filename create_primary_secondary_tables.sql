@@ -14,9 +14,9 @@ WITH mzdy AS (
     JOIN czechia_payroll_industry_branch cpib
         ON cp.industry_branch_code = cpib.code
     WHERE cp.value_type_code = 5958
-        AND cp.unit_code = 200
-        AND cp.calculation_code = 200
-        AND cp.industry_branch_code IS NOT NULL
+      AND cp.unit_code = 200
+      AND cp.calculation_code = 200
+      AND cp.industry_branch_code IS NOT NULL
     GROUP BY
         cp.payroll_year,
         cp.industry_branch_code,
@@ -25,12 +25,12 @@ WITH mzdy AS (
 
 ceny AS (
     SELECT
-        EXTRACT(YEAR FROM cp.date_from) AS rok,
+        EXTRACT(YEAR FROM cp.date_from)::bigint AS rok,
         cp.category_code,
         cpc.name AS potravina,
         cpc.price_value,
         cpc.price_unit,
-        AVG(cp.value) AS prumerna_cena
+        ROUND(AVG(cp.value)::numeric, 2) AS prumerna_cena
     FROM czechia_price cp
     JOIN czechia_price_category cpc
         ON cp.category_code = cpc.code
@@ -61,6 +61,7 @@ ORDER BY
     m.industry_branch_code,
     c.category_code;
 
+
 -- Vytvoření sekundární finální tabulky
 -- Obsahuje údaje o HDP, populaci a GINI koeficientu
 -- evropských států za období 2006–2018.
@@ -77,7 +78,10 @@ FROM economies e
 JOIN countries c
     ON e.country = c.country
 WHERE c.continent = 'Europe'
-    AND e.year BETWEEN 2006 AND 2018
+  AND e.year BETWEEN 2006 AND 2018
+ORDER BY
+    e.country,
+    e.year;
 ORDER BY
     e.country,
     e.year;
