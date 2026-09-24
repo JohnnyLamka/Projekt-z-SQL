@@ -82,6 +82,3 @@ WHERE c.continent = 'Europe'
 ORDER BY
     e.country,
     e.year;
-ORDER BY
-    e.country,
-    e.year;
