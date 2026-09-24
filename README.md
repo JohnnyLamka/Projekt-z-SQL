@@ -150,22 +150,15 @@ ale skutečně vykazovala mírný pokles. Druhou nejnižší hodnotu měla rajsk
 ### SQL dotaz
 
 ```sql
-WITH rocni_ceny AS (
-    SELECT
-        EXTRACT(YEAR FROM cp.date_from)::int AS rok,
-        cp.category_code,
-        cpc.name AS potravina,
-        AVG(cp.value) AS prumerna_cena
-    FROM czechia_price cp
-    JOIN czechia_price_category cpc
-        ON cp.category_code = cpc.code
-    WHERE EXTRACT(YEAR FROM cp.date_from) BETWEEN 2006 AND 2018
-    GROUP BY
-        EXTRACT(YEAR FROM cp.date_from),
-        cp.category_code,
-        cpc.name
+WITH ceny AS (
+    SELECT DISTINCT
+        rok,
+        category_code,
+        potravina,
+        prumerna_cena
+    FROM t_jan_lamka_project_SQL_primary_final
 ),
-ceny_s_predchozim_rokem AS (
+porovnani AS (
     SELECT
         rok,
         category_code,
@@ -175,16 +168,18 @@ ceny_s_predchozim_rokem AS (
             PARTITION BY category_code
             ORDER BY rok
         ) AS cena_predchozi_rok
-    FROM rocni_ceny
+    FROM ceny
 ),
 mezirocni_zmeny AS (
     SELECT
         rok,
         category_code,
         potravina,
+        prumerna_cena,
+        cena_predchozi_rok,
         ((prumerna_cena / cena_predchozi_rok) - 1) * 100
             AS mezirocni_zmena_pct
-    FROM ceny_s_predchozim_rokem
+    FROM porovnani
     WHERE cena_predchozi_rok IS NOT NULL
 )
 SELECT
